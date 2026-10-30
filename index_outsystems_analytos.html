@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OutSystems + Analytos GTM Strategy Brief · Vieu · November 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:       #1A1818;
+    --ink-mid:   #3D3A3A;
+    --ink-soft:  #7A7575;
+    --rule:      #E2DFDC;
+    --paper:     #F8F6F3;
+    --white:     #FFFFFF;
+    --accent:    #7744FF;
+    --accent-lt: #EDE8FF;
+    --gold:      #B8892A;
+    --gold-lt:   #FDF5E4;
+    --red:       #C0392B;
+    --green:     #1D7A4A;
+    --green-lt:  #E6F4EC;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+    --max:   860px;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  .page { max-width: var(--max); margin: 0 auto; padding: 0 40px 80px; }
+
+  /* Nav */
+  .topnav { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--rule); padding: 12px 40px; display: flex; gap: 24px; flex-wrap: wrap; max-width: 100%; }
+  .topnav a { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; }
+  .topnav a:first-child, .topnav a:hover { color: var(--accent); }
+
+  /* Cover */
+  .cover { padding: 72px 0 56px; border-bottom: 1px solid var(--ink); margin-bottom: 56px; }
+  .cover-eyebrow { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .cover-eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--accent); }
+  .cover-title { font-family: var(--serif); font-size: clamp(40px, 5.6vw, 60px); line-height: 1.07; color: var(--ink); margin-bottom: 10px; }
+  .cover-title em { font-style: italic; color: var(--accent); }
+  .cover-sub { font-size: 17px; color: var(--ink-mid); font-weight: 300; margin-bottom: 36px; max-width: 600px; }
+  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .cover-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .cover-meta-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .cover-meta-value { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+  /* Sections */
+  .section { margin-bottom: 64px; scroll-margin-top: 56px; }
+  .section + .section { padding-top: 48px; border-top: 1px solid var(--rule); }
+  .section-kicker { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .section-title { font-family: var(--serif); font-size: 28px; line-height: 1.18; color: var(--ink); margin-bottom: 20px; }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-intro { font-size: 15px; color: var(--ink-mid); line-height: 1.7; max-width: 680px; margin-bottom: 28px; }
+
+  /* Stat strip */
+  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 40px; }
+  .stat-cell { background: var(--white); padding: 24px 22px; }
+  .stat-num { font-family: var(--serif); font-size: 34px; line-height: 1; color: var(--accent); margin-bottom: 6px; }
+  .stat-label { font-size: 12px; font-weight: 500; color: var(--ink-soft); line-height: 1.4; }
+
+  /* Pull quote */
+  .pull-quote { border-left: 3px solid var(--accent); padding: 16px 24px; background: var(--accent-lt); border-radius: 0 6px 6px 0; margin: 28px 0; }
+  .pull-quote p { font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--ink); font-style: italic; }
+  .pull-quote cite { display: block; margin-top: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-style: normal; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cards.three { grid-template-columns: repeat(3, 1fr); }
+  .card { background: var(--white); border: 1px solid var(--rule); border-radius: 8px; padding: 22px 20px; }
+  .card-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .card-title { font-family: var(--serif); font-size: 17px; line-height: 1.25; margin-bottom: 10px; color: var(--ink); }
+  .card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .card.accent-top { border-top: 3px solid var(--accent); }
+
+  /* Two-col */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  /* Tags */
+  .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tag { font-size: 11.5px; font-weight: 500; padding: 4px 12px; border-radius: 20px; background: var(--white); border: 1px solid var(--rule); color: var(--ink-mid); }
+  .tag.tier1 { background: var(--accent); color: var(--white); border-color: var(--accent); font-weight: 600; }
+  .tag.tier2 { background: var(--accent-lt); color: var(--accent); border-color: var(--accent); }
+  .tag.anti { border-color: var(--red); color: var(--red); }
+  .tag.ask { border-style: dashed; border-color: var(--gold); color: var(--gold); background: var(--gold-lt); }
+
+  /* Segmented sub-labels */
+  .sub-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin: 18px 0 4px; }
+  .segment { background: var(--white); border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 8px; padding: 22px 24px; margin-bottom: 16px; }
+  .segment-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .segment-kicker { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); background: var(--accent-lt); padding: 3px 10px; border-radius: 20px; }
+  .segment-title { font-family: var(--serif); font-size: 19px; color: var(--ink); }
+
+  /* Tables */
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 6px; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  .data-table th { text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--ink); padding: 10px 14px; border: none; }
+  .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink-mid); line-height: 1.55; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) td { background: var(--white); }
+  .data-table tr:nth-child(odd) td { background: var(--paper); }
+  .data-table td strong { color: var(--ink); font-weight: 600; }
+
+  /* Vieu dark box */
+  .vieu-box { background: var(--ink); border-radius: 10px; padding: 32px 36px; color: var(--white); }
+  .vieu-box-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .vieu-box h3 { font-family: var(--serif); font-size: 22px; color: var(--white); margin-bottom: 16px; line-height: 1.3; }
+  .vieu-box > p { font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.7; margin-bottom: 24px; }
+
+  /* Program banner */
+  .program-banner { background: var(--ink); border-radius: 10px; padding: 28px 32px; margin-bottom: 36px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .pb-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .pb-title { font-family: var(--serif); font-size: 18px; color: #fff; line-height: 1.25; margin-bottom: 6px; }
+  .pb-body { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+  /* Pillars */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+  .pillar { border: 1px solid rgba(255,255,255,0.18); border-radius: 6px; padding: 18px 16px; text-align: center; }
+  .pillar-text { font-size: 13.5px; font-weight: 600; color: var(--white); line-height: 1.35; }
+
+  /* Delivery matrix */
+  .del-matrix { width: 100%; border-collapse: collapse; }
+  .del-matrix th { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .del-matrix th.label-col { text-align: left; width: 60%; color: rgba(255,255,255,0.45); }
+  .del-matrix th.delivers-col { color: var(--accent); border-bottom: 2px solid var(--accent); }
+  .del-matrix td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); vertical-align: middle; }
+  .del-matrix tr:last-child td { border-bottom: none; }
+  .del-matrix td.label-col { padding-left: 0; }
+  .del-matrix td.icon-col  { text-align: center; width: 20%; }
+  .row-num { display: inline-block; background: rgba(119,68,255,0.35); color: var(--accent); font-size: 10px; font-weight: 700; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 4px; margin-right: 10px; flex-shrink: 0; }
+  .row-label-wrap { display: flex; align-items: flex-start; }
+  .row-label-inner { display: flex; flex-direction: column; }
+  .row-title { font-size: 13.5px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .row-desc  { font-size: 11.5px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+  .mark-delivers { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 4px; border: 1.5px solid var(--accent); background: rgba(119,68,255,0.2); }
+  .mark-delivers svg { width: 12px; height: 12px; stroke: var(--accent); stroke-width: 2.5; fill: none; }
+
+  /* Deliverable rows */
+  .del-row { display:grid; grid-template-columns:160px 1fr; border:1px solid var(--rule); border-top:none; overflow:hidden; }
+  .del-row.first { border-top:1px solid var(--rule); border-radius:8px 8px 0 0; }
+  .del-row.last { border-radius:0 0 8px 8px; }
+  .del-row .dk { background:var(--accent); padding:20px 18px; display:flex; flex-direction:column; justify-content:center; }
+  .del-row .dk .lab { font-size:9px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:6px; }
+  .del-row .dk .val { font-family:var(--serif); font-size:17px; color:#fff; line-height:1.2; }
+  .del-row .dk .when { font-size:11px; color:rgba(255,255,255,0.65); margin-top:8px; font-weight:600; }
+  .del-row .db { background:var(--white); padding:20px 22px; }
+  .del-row .db .h { font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:6px; }
+  .del-row .db .p { font-size:13px; color:var(--ink-mid); line-height:1.65; }
+
+  /* Offer box */
+  .offer-box { background: var(--white); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 22px 24px; margin-bottom: 28px; }
+  .offer-label { font-size:10px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  .check-list { list-style:none; font-size:13px; color:var(--ink-mid); line-height:1.7; }
+  .check-list li { margin-bottom:6px; padding-left:18px; position:relative; }
+  .check-list li::before { content:'\2713'; position:absolute; left:0; color:var(--green); }
+  .mini-head { font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px; }
+
+  /* Agent chips */
+  .agents { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin: 18px 0; }
+  .agent { background: var(--paper); border:1px solid var(--rule); border-radius:6px; padding:12px 12px; }
+  .agent b { display:block; font-size:12.5px; color:var(--ink); margin-bottom:2px; }
+  .agent span { font-size:11.5px; color:var(--ink-mid); line-height:1.45; display:block; }
+
+  /* Outcome strip (one-pager claims) */
+  .outcome-strip { display:grid; grid-template-columns: repeat(5, 1fr); gap:1px; background: rgba(255,255,255,0.1); border-radius:8px; overflow:hidden; margin-top: 18px; }
+  .outcome { background: var(--ink); padding: 16px 14px; }
+  .outcome .n { font-family: var(--serif); font-size: 22px; color: #B9A2FF; line-height:1.1; }
+  .outcome .l { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 4px; line-height:1.35; }
+
+  /* Governance */
+  .gov-callout { background: var(--gold-lt); border: 1px dashed var(--gold); border-radius: 8px; padding: 16px 20px; margin-bottom: 28px; font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .gov-callout strong { color: var(--ink); }
+  .pill { display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:2px 8px; border-radius:20px; white-space:nowrap; vertical-align: middle; }
+  .pill.live { background: var(--accent-lt); color: var(--accent); }
+  .pill.proposed { background: var(--gold-lt); color: var(--gold); border: 1px solid rgba(184,137,42,0.35); }
+  .pill.known { background: var(--green-lt); color: var(--green); }
+  .gov-table td { min-width: 120px; }
+  .gov-table td:first-child { min-width: 170px; }
+  .gov-table th:not(:first-child) { min-width: 130px; }
+  .role-name { font-weight: 600; color: var(--ink); display:block; }
+  .role-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.45; display:block; margin-top: 2px; }
+  .person { color: var(--ink); font-weight: 500; }
+  .person small { display:block; font-size: 11px; color: var(--ink-soft); font-weight: 400; }
+
+  .fill { display:inline; color: var(--ink); }
+  .fill.pending { color: var(--ink-soft); font-style: italic; border-bottom: 1.5px dashed var(--accent); }
+  body.editing .fill { outline: 1px dashed var(--accent); outline-offset: 2px; background: var(--white); cursor: text; border-radius: 2px; }
+  body.editing .fill:focus { outline: 2px solid var(--accent); }
+
+  .flow { counter-reset: flow; list-style: none; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--white); }
+  .flow li { counter-increment: flow; display: grid; grid-template-columns: 44px 1fr 190px; gap: 14px; padding: 16px 18px; border-bottom: 1px solid var(--rule); align-items: start; }
+  .flow li:last-child { border-bottom: none; }
+  .flow li::before { content: counter(flow, decimal-leading-zero); font-family: var(--serif); font-size: 26px; color: var(--accent); line-height: 1; }
+  .flow .ft { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .flow .fd { font-size: 12.5px; color: var(--ink-mid); line-height: 1.55; }
+  .flow .fo { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+  .flow .fo b { display:block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; margin-bottom: 2px; }
+
+  .decision-list { list-style: none; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .decision-list li { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 14px 18px; background: var(--white); border-bottom: 1px solid var(--rule); }
+  .decision-list li:nth-child(even) { background: var(--paper); }
+  .decision-list li:last-child { border-bottom: none; }
+  .dq { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+  .dq span { display:block; font-size: 12px; font-weight: 400; color: var(--ink-soft); margin-top: 2px; }
+  .da { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+  .da b { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; margin-right: 6px; }
+
+  /* Edit toolbar (only appears with #edit in the URL) */
+  #edit-bar { position: fixed; right: 16px; bottom: 16px; z-index: 200; background: var(--ink); color: #fff; border-radius: 10px; padding: 12px 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.25); font-size: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: calc(100vw - 32px); }
+  #edit-bar button { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border: 1.5px solid var(--accent); background: var(--accent); color: #fff; border-radius: 4px; padding: 7px 12px; cursor: pointer; }
+  #edit-bar button.ghost { background: transparent; color: #B9A2FF; }
+
+  /* Footer */
+  .doc-footer { padding-top: 36px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-top: 64px; }
+  .footer-left { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+  .footer-vieu { font-size: 22px; font-family: var(--serif); color: var(--ink-soft); }
+
+  .note { font-size: 11px; color: var(--ink-soft); line-height: 1.5; margin-top: 10px; }
+  .note a, .src a { color: var(--ink-soft); }
+  .steps { display:flex; flex-direction:column; gap:8px; }
+  .step { display:flex; gap:12px; align-items:flex-start; }
+  .step-n { flex-shrink:0; width:22px; height:22px; background:var(--accent-lt); color:var(--accent); border-radius:4px; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .step-t { font-size:13px; color:var(--ink-mid); line-height:1.55; overflow-wrap:anywhere; }
+
+  .links-box { display:flex; flex-direction:column; border:1px solid var(--rule); border-radius:8px; overflow:hidden; }
+  .link-row { display:grid; grid-template-columns:200px 1fr auto; align-items:center; padding:16px 20px; background:var(--white); border-bottom:1px solid var(--rule); gap:16px; }
+  .link-row.tall { grid-template-columns:200px 1fr; align-items:start; padding:20px; background:var(--paper); border-bottom:none; }
+  .link-name { font-size:13px; font-weight:600; color:var(--ink); }
+  .link-desc { font-size:13px; color:var(--ink-soft); }
+  .btn-outline { font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); border:1.5px solid var(--accent); border-radius:4px; padding:6px 14px; text-decoration:none; white-space:nowrap; }
+  .btn-solid { display:inline-block; margin-top:16px; font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#fff; background:var(--accent); border-radius:4px; padding:9px 18px; text-decoration:none; }
+
+  @media print {
+    body { background: white; } .page { padding: 0 0 48px; } .cover { padding: 48px 0 40px; }
+    .topnav, #edit-bar { display: none; }
+  }
+  @media (max-width: 640px) {
+    .page { padding: 0 16px 60px; }
+    .topnav { padding: 10px 16px; gap: 14px; }
+    .cards, .cards.three, .two-col, .pillars, .program-banner { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: 1fr; }
+    .cover { padding: 48px 0 40px; }
+    .cover-title { font-size: 34px; }
+    .del-row, .del-row.first, .del-row.last { grid-template-columns: 1fr; }
+    .vieu-box { padding: 24px 18px; }
+    .agents { grid-template-columns: 1fr 1fr; }
+    .outcome-strip { grid-template-columns: 1fr 1fr; }
+    .flow li { grid-template-columns: 34px 1fr; }
+    .flow li .fo { grid-column: 2; }
+    .decision-list li { grid-template-columns: 1fr; gap: 6px; }
+    .link-row, .link-row.tall { grid-template-columns: 1fr; gap: 10px; }
+    .segment { padding: 18px 16px; }
+  }
+</style>
+</head>
+<body>
+<nav class="topnav" aria-label="Sections">
+  <a href="#s01">Welcome</a>
+  <a href="#s02">Market Moment</a>
+  <a href="#s03">Your Business</a>
+  <a href="#s04">GTM Challenge</a>
+  <a href="#s05">Who You Sell To</a>
+  <a href="#s06">Governance</a>
+  <a href="#s07">Getting Started</a>
+</nav>
+
+<div class="page">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-eyebrow">GTM Strategy Brief</div>
+    <h1 class="cover-title">OutSystems + Analytos<br><em>Go-to-Market</em><br>Strategy</h1>
+    <p class="cover-sub">A go-to-market intelligence brief powered by Vieu, built on 9B executive relationships to accelerate warm access to North American manufacturers where <strong>Stockly</strong>, agentic inventory intelligence running natively on OutSystems, sits on top of the ERP they already run and flags shortages before the line stops.</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><span class="cover-meta-label">Prepared by</span><span class="cover-meta-value">Vieu</span></div>
+      <div class="cover-meta-item"><span class="cover-meta-label">Prepared for</span><span class="cover-meta-value">OutSystems · Analytos</span></div>
+      <div class="cover-meta-item"><span class="cover-meta-label">Date</span><span class="cover-meta-value">Kickoff · 2 November 2026</span></div>
+      <div class="cover-meta-item"><span class="cover-meta-label">Engagement</span><span class="cover-meta-value">AWS BOX · Tier 1 · Milestone 3 · S-0098377</span></div>
+    </div>
+  </div>
+
+  <!-- 01 WELCOME -->
+  <div class="section" id="s01">
+    <h2 class="section-title">Welcome to the<br><em>AWS BOX Program</em></h2>
+    <p class="section-intro">Stockly has been approved for an AWS Business Outcomes eXcelerator Milestone 3 GTM campaign, with Vieu as your go-to-market partner. As a <strong>Tier 1</strong> white-glove engagement you get the full Vieu stack: bounce-verified leads, warm connection paths and full account plans. Analytos built Stockly, OutSystems is the platform it runs on, and Vieu finds the right buyers and a warm way in to each of them.</p>
+
+    <div class="program-banner">
+      <div>
+        <div class="pb-label">The Program</div>
+        <div class="pb-title">AWS BOX · Tier 1</div>
+        <div class="pb-body">White-glove engagement for the BOX solution Stockly, run jointly with OutSystems and Analytos.</div>
+      </div>
+      <div>
+        <div class="pb-label">The Accounts</div>
+        <div class="pb-title">NAMER manufacturers, 1,000+ employees</div>
+        <div class="pb-body">Automotive and manufacturing first, with $100M+ revenue. Whether Retail &amp; CPG stays in scope is one of the questions for the kickoff.</div>
+      </div>
+      <div>
+        <div class="pb-label">The Goal</div>
+        <div class="pb-title">Set together on the kickoff</div>
+        <div class="pb-body">Your target for qualified first meetings and 14-day proof-of-value starts. We agree the number and the timeline live.</div>
+      </div>
+    </div>
+
+    <p class="sub-label" style="margin-bottom:12px;">What You Get</p>
+    <div style="margin-bottom:36px;">
+      <div class="del-row first">
+        <div class="dk"><div class="lab">Deliverable 01</div><div class="val">Account Plans</div><div class="when">100 curated account plans</div></div>
+        <div class="db"><div class="h">Full account plans with strategic priorities</div><div class="p">A complete plan for each priority account: corporate sentiment, strategic opportunities, stakeholders, connections and org chart.</div></div>
+      </div>
+      <div class="del-row">
+        <div class="dk"><div class="lab">Deliverable 02</div><div class="val">Verified Leads</div><div class="when">Up to 1,000 · released in cohorts</div></div>
+        <div class="db"><div class="h">Bounce-verified leads, ranked by fit</div><div class="p">Contact-verified supply-chain, operations and finance leaders across your target accounts. Each one is enriched and prioritized by fit, ready for your outreach owners to work.</div></div>
+      </div>
+      <div class="del-row">
+        <div class="dk"><div class="lab">Deliverable 03</div><div class="val">Decision-Makers + Warm Paths</div><div class="when">100 warm paths</div></div>
+        <div class="db"><div class="h">Named buyers with named warm paths</div><div class="p">The VP Supply Chain, plant and operations leaders who would actually run a Stockly proof of value. Each one comes with a named warm path from the OutSystems and Analytos networks: board, leadership, investors and champions.</div></div>
+      </div>
+      <div class="del-row last">
+        <div class="dk"><div class="lab">Deliverable 04</div><div class="val">Look-alike Opportunities</div><div class="when">As surfaced</div></div>
+        <div class="db"><div class="h">High-fit accounts beyond your original list</div><div class="p">Accounts that match the ICP but weren't on your list. Each comes with fit rationale, connection paths and verified contacts.</div></div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:-24px; margin-bottom:36px;">Volumes are the Tier 1 entitlement. We release leads in focused cohorts and scale up based on your feedback. That way the list stays sized to the team that will work it.</p>
+
+    <p class="sub-label" style="margin-bottom:12px;">How We Start</p>
+    <div class="cards" style="margin-bottom:40px;">
+      <div class="card accent-top">
+        <div class="card-eyebrow">Already in motion</div>
+        <div class="card-title" style="font-size:16px;">Vieu proposes the accounts</div>
+        <div class="card-body">A starting universe of roughly 1,300 North American accounts that match the BOX criteria is already in your onboarding workbook. Vieu narrows it to the accounts where Stockly fits best and a warm path exists, and makes the case for each one. You react and handpick.</div>
+      </div>
+      <div class="card accent-top">
+        <div class="card-eyebrow">Your inputs</div>
+        <div class="card-title" style="font-size:16px;">Your lists shape the scope</div>
+        <div class="card-body">Your priority accounts, and the seller who owns each one, are merged with Vieu's candidates. Your suppression list (current customers, open opportunities, accounts other partners own) is applied before anything reaches you. Both lists are pending.</div>
+      </div>
+    </div>
+
+    <div class="vieu-box" style="margin-top:36px;">
+      <div class="vieu-box-label">Vieu · AWS BOX · Tier 1 (All Services)</div>
+      <h3>Warm paths into the accounts that matter, backed by the full intelligence stack.</h3>
+      <p>Vieu maps your combined network, OutSystems plus Analytos, against the target list to surface the warmest paths to the supply-chain and operations leaders who own the problem. As a Tier 1 account, every capability below is both delivered by Vieu and available to your team in the platform.</p>
+
+      <div class="pillars">
+        <div class="pillar"><div class="pillar-text">Fast track decision maker access</div></div>
+        <div class="pillar"><div class="pillar-text">Strategic account intelligence</div></div>
+        <div class="pillar"><div class="pillar-text">Stakeholder intelligence</div></div>
+      </div>
+
+      <div class="table-wrap">
+      <table class="del-matrix">
+        <thead>
+          <tr><th class="label-col"></th><th class="delivers-col">Vieu Delivers</th><th class="delivers-col">Your Access</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">01</span><div class="row-label-inner"><span class="row-title">Account plan</span><span class="row-desc">Deep account POV with contextual research aligned to your sales stages</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">02</span><div class="row-label-inner"><span class="row-title">Connection paths</span><span class="row-desc">Accelerate decision maker access using your company's full network</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">03</span><div class="row-label-inner"><span class="row-title">Stakeholder map &amp; org chart</span><span class="row-desc">Know the decision makers and influencers across all buying groups</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">04</span><div class="row-label-inner"><span class="row-title">Opportunities</span><span class="row-desc">Identify trigger points where Vieu can drive outcomes for target accounts</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">05</span><div class="row-label-inner"><span class="row-title">Technographics</span><span class="row-desc">Know who's using competitor or complementary tech, and in what context</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">06</span><div class="row-label-inner"><span class="row-title">Verified contact details</span><span class="row-desc">Waterfall enrichment across multiple data vendors to maximize TAM coverage</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+          <tr>
+            <td class="label-col"><div class="row-label-wrap"><span class="row-num">07</span><div class="row-label-inner"><span class="row-title">White-glove services</span><span class="row-desc">A dedicated customer success team for anything beyond the Vieu platform's scope</span></div></div></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+            <td class="icon-col"><span class="mark-delivers"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 MARKET MOMENT -->
+  <div class="section" id="s02">
+    <div class="section-kicker">Your Market Moment</div>
+    <h2 class="section-title">Here is what we found.</h2>
+    <p class="section-intro">Manufacturers don't need more dashboards. They need to see a shortage coming before it stops the line. Supplier performance, lead times and demand keep shifting, but the buffer settings in most ERPs stay fixed until someone changes them by hand. Leaders also want AI that recommends while a planner still decides. Stockly is built for that gap: it watches every SKU and supplier, predicts risk, recalibrates buffers, and sends every recommendation through a human approval gate.</p>
+
+    <div class="stat-strip">
+      <div class="stat-cell"><div class="stat-num">$2.3M</div><div class="stat-label">Cost of one hour of unplanned downtime in automotive. Across the world's 500 largest companies, downtime takes about 11% of annual revenue<sup>1</sup></div></div>
+      <div class="stat-cell"><div class="stat-num">57%</div><div class="stat-label">of manufacturers surveyed say raw-material procurement is where disruption hits their supply chain hardest<sup>2</sup></div></div>
+      <div class="stat-cell"><div class="stat-num">54%</div><div class="stat-label">prefer AI that makes recommendations while humans make the final call. Only 10% would let AI decide alone<sup>2</sup></div></div>
+    </div>
+
+    <div class="pull-quote">
+      <p>"A shortage is cheap to fix two weeks before it happens, and very expensive in the hour the line stops."</p>
+      <cite>Vieu Account Intelligence · OutSystems + Analytos</cite>
+    </div>
+    <p class="note"><sup>1</sup> Siemens, <em>The True Cost of Downtime 2024</em>, as reported by ISM (<a href="https://www.ismworld.org/supply-management-news-and-reports/news-publications/inside-supply-management-magazine/blog/2024/2024-08/the-monthly-metric-unscheduled-downtime/" target="_blank" rel="noopener">ismworld.org</a>). <sup>2</sup> RELEX Solutions survey of 514 retail, manufacturing, wholesale and supply chain leaders, January 2026, published 25 March 2026 (<a href="https://www.relexsolutions.com/news/relex-report-ai-moves-into-core-supply-chain-decisions-" target="_blank" rel="noopener">relexsolutions.com</a>). The same survey found 47% using or planning AI-driven inventory and supply optimization.</p>
+  </div>
+
+  <!-- 03 UNDERSTANDING YOUR BUSINESS -->
+  <div class="section" id="s03">
+    <h2 class="section-title">Our Understanding of Your Business</h2>
+    <p class="section-intro">Pre-kickoff research from public sources and the Stockly one-pager you shared. Please correct anything we have wrong on the call.</p>
+
+    <div class="cards" style="margin-bottom: 28px;">
+      <div class="card accent-top">
+        <div class="card-eyebrow">OutSystems · The platform</div>
+        <div class="card-title">AI development platform, built for agents</div>
+        <div class="card-body">Founded in Lisbon in 2001 and headquartered in Boston, under CEO Woodson Martin. More than 600 partners, with customers in 75+ countries. Agent Workbench is the layer for building and governing enterprise AI agents, and its next generation features Amazon Bedrock. OutSystems has had a multi-year Strategic Collaboration Agreement with AWS since December 2020.<sup>3</sup></div>
+      </div>
+      <div class="card accent-top">
+        <div class="card-eyebrow">Analytos · The solution builder</div>
+        <div class="card-title">Production-ready agents for manufacturing</div>
+        <div class="card-body">Analytos Labs has built with AI since 2015 and is an OutSystems solution partner, building "agentic systems on the OutSystems platform." Its pitch is <em>built in 2 weeks, live in 90 days.</em> Its manufacturing suite covers inventory (Stockly), invoicing, inspection, quality and procurement. The team pairs co-founders Ashish Dayal and Santosh Thota with Narayan Laksham, a manufacturing and supply-chain leader who drives go-to-market and partnerships.<sup>4</sup></div>
+      </div>
+    </div>
+
+    <div class="offer-box">
+      <div class="offer-label">Stockly · The offer</div>
+      <p style="font-size:13px; color:var(--ink-mid); line-height:1.7;">Inventory intelligence on top of the ERP the customer already runs (SAP, Oracle, QAD, Epicor, Infor, NetSuite), with no rip-and-replace. Stockly runs natively on OutSystems and is aimed at the 500–2,000 SKU book where supplier slips go unnoticed and planning lags. It builds on a pull-replenishment model and works through four agents. Every recommendation passes a human approval gate.<sup>5</sup></p>
+
+      <div class="agents">
+        <div class="agent"><b>Stockout Agent</b><span>Flags SKUs at risk and briefs the planner on each</span></div>
+        <div class="agent"><b>Supplier Agent</b><span>Scores each supplier's delivery risk</span></div>
+        <div class="agent"><b>Signal Agent</b><span>Tracks external disruptions and their impact</span></div>
+        <div class="agent"><b>Kai</b><span>Answers any SKU or scenario question in plain English</span></div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="mini-head">How it fits together</div>
+          <ul class="check-list">
+            <li><strong>Analytos</strong> builds, deploys and supports Stockly, starting with a 14-day proof of value on the first plant's real data</li>
+            <li><strong>OutSystems</strong> is the platform Stockly runs on natively: agents, connectors to the ERP, governance</li>
+            <li><strong>AWS</strong> hosts the forecasting and simulation services in current deployments, and backs the program through BOX</li>
+          </ul>
+        </div>
+        <div>
+          <div class="mini-head">The opportunity in one sentence</div>
+          <p style="font-size:13px; color:var(--ink-mid); line-height:1.7;">Stockly gives manufacturers early warning on shortages and frees working capital without touching their ERP. Vieu supplies the supply-chain and operations leaders who feel that pain, and a warm way in to each.</p>
+          <div class="mini-head" style="margin-top:16px;">Start → expand</div>
+          <p style="font-size:13px; color:var(--ink-mid); line-height:1.7;">Core base (Supplier Portal, Control Tower), then Digital Twin what-if modeling, then advanced optimization. Proof of value in 2 weeks, full production in 90 days.</p>
+        </div>
+      </div>
+
+      <div class="outcome-strip" aria-label="Indicative outcomes from the Stockly one-pager">
+        <div class="outcome"><div class="n">15–25%</div><div class="l">Inventory rightsizing</div></div>
+        <div class="outcome"><div class="n">30%</div><div class="l">Stockout reduction</div></div>
+        <div class="outcome"><div class="n">50%+</div><div class="l">Forecast accuracy</div></div>
+        <div class="outcome"><div class="n">20–40%</div><div class="l">Working capital</div></div>
+        <div class="outcome"><div class="n">30–60%</div><div class="l">Faster decisions</div></div>
+      </div>
+    </div>
+    <p class="note"><sup>3</sup> OutSystems press release, 1 June 2026 (<a href="https://www.businesswire.com/news/home/20260601330502/en/OutSystems-Unveils-Open-Agentic-Systems-Platform-for-Enterprise-AI" target="_blank" rel="noopener">Business Wire</a>); OutSystems–AWS Strategic Collaboration Agreement, 7 December 2020 (<a href="https://www.businesswire.com/news/home/20201207005179/en/OutSystems-Announces-Strategic-Collaboration-Agreement-with-AWS" target="_blank" rel="noopener">Business Wire</a>); company history (<a href="https://en.wikipedia.org/wiki/OutSystems" target="_blank" rel="noopener">Wikipedia</a>). <sup>4</sup> <a href="https://www.analytos.ai/" target="_blank" rel="noopener">analytos.ai</a> and <a href="https://www.analytos.ai/manufacturing" target="_blank" rel="noopener">analytos.ai/manufacturing</a>. <sup>5</sup> Stockly one-pager (Analytos × OutSystems) and the <a href="https://www.outsystems.com/forge/component-overview/25390/stockly" target="_blank" rel="noopener">OutSystems Forge listing</a>. Outcome ranges are the indicative figures from your one-pager. We will use them in outreach only in the form you approve.</p>
+  </div>
+
+  <!-- 04 GTM CHALLENGE -->
+  <div class="section" id="s04">
+    <h2 class="section-title">The GTM Challenge</h2>
+    <p class="section-intro">The product story is sharp and the entry offer is low-risk. The harder part is reach and ownership. The people who feel the pain sit in supply chain and operations, not IT. And with three companies in one motion, a warm path can easily land with nobody. <strong>These are our pre-kickoff hypotheses. We will test them with you on the call.</strong></p>
+
+    <div class="two-col" style="margin-bottom:32px;">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Where It Should Work</th><th>Where It Could Stall</th></tr></thead>
+          <tbody>
+            <tr><td>A 500–2,000 SKU book where planners still tune buffers and min/max by hand</td><td>Buyers sit in supply chain and operations. A platform vendor's usual IT relationships may not reach them</td></tr>
+            <tr><td>Volatile suppliers and lead times. The ERP shows what happened, not what's coming</td><td>Three parties in one motion. Without named owners, leads fall between OutSystems and Analytos</td></tr>
+            <tr><td>A concrete, low-risk first step: a live agent on one plant's real data in 14 days</td><td>A crowded field of planning suites and AI vendors chasing the same budget</td></tr>
+            <tr><td>A human approval gate on every action, which matches how leaders want to adopt AI</td><td>Fatigue with AI pilots that never reach production</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="pull-quote" style="margin-top:0"><p>"A warm path only turns into a meeting when someone owns it. We will name that person before the first lead lands."</p><cite>Vieu Account Intelligence</cite></div>
+        <p style="font-size:13px; color: var(--ink-mid); line-height:1.7; margin-top:16px;">This is why this brief includes a governance section (Section 06). Your BOX submission says you have a team ready to engage leads as they come in. We want to put names against that before the first cohort is released.</p>
+      </div>
+    </div>
+
+    <p class="sub-label" style="margin-bottom:12px;">Near-Term Plays · proposed</p>
+    <div class="cards">
+      <div class="card accent-top">
+        <div class="card-eyebrow">Play 01 · Lead with the proof of value</div>
+        <div class="card-title" style="font-size:16px;">One clear ask in every message</div>
+        <div class="card-body">Every warm intro and outbound touch ends on the same low-risk offer: a live Stockly agent watching the first plant's real data within 14 days. It is easy to say yes to, and it is the step your one-pager is built around.</div>
+      </div>
+      <div class="card accent-top">
+        <div class="card-eyebrow">Play 02 · Start where the platform already lives</div>
+        <div class="card-title" style="font-size:16px;">OutSystems customers in manufacturing</div>
+        <div class="card-body">Manufacturers that already run OutSystems have the platform Stockly runs on. If OutSystems can share or approve that cohort, Vieu maps warm paths into their supply-chain and operations leaders first. Is this in scope? It's a question for the call.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 WHO YOU SELL TO -->
+  <div class="section" id="s05">
+    <h2 class="section-title">Who You Sell To</h2>
+    <p class="section-intro">One target segment, entered two ways. In both, the champion is an operations or supply-chain leader who feels the shortage. Finance and IT come in to approve. The personas below come from the set Vieu's AI suggested in your onboarding workbook, grouped by us against Stockly's own buyer list (Supply Chain VP, Planner, CFO). Please keep, remove or add.</p>
+
+    <div class="segment">
+      <div class="segment-head">
+        <span class="segment-kicker">Target Segment</span>
+        <span class="segment-title">Manufacturers in North America with a complex parts book</span>
+      </div>
+      <div class="card-body">US, Canada and Mexico. 1,000+ employees and $100M+ revenue. Multi-plant operations running an established ERP and buying hundreds to thousands of parts from a supplier base that doesn't always deliver on time. These companies feel stockouts as line stoppages and expediting cost, and feel excess inventory as trapped working capital.</div>
+
+      <div class="sub-label">Two ways in</div>
+      <div class="two-col" style="margin-top:12px;">
+        <div>
+          <div class="card-eyebrow">Entry 01 · Shortage-led</div>
+          <div style="font-family:var(--serif); font-size:16px; color:var(--ink); line-height:1.25; margin-bottom:8px;">Stockouts keep stopping the line</div>
+          <div class="card-body">Supplier slips are found too late, planners firefight and expedite, and production misses schedule. The pitch: see the shortage two weeks earlier and recalibrate buffers before it lands.</div>
+          <div class="sub-label">Champions · start here</div>
+          <div class="tag-group">
+            <span class="tag tier1">VP Supply Chain</span>
+            <span class="tag tier1">Director Supply Chain</span>
+            <span class="tag tier1">Director of Manufacturing</span>
+            <span class="tag tier1">Plant Manager / Site Director</span>
+            <span class="tag tier1">Materials Manager</span>
+          </div>
+          <div class="sub-label">Sponsors · not the first call</div>
+          <div class="tag-group">
+            <span class="tag tier2">COO</span>
+            <span class="tag tier2">Chief Supply Chain Officer</span>
+            <span class="tag tier2">VP Operations</span>
+            <span class="tag tier2">VP Manufacturing</span>
+          </div>
+        </div>
+        <div>
+          <div class="card-eyebrow">Entry 02 · Working-capital-led</div>
+          <div style="font-family:var(--serif); font-size:16px; color:var(--ink); line-height:1.25; margin-bottom:8px;">Too much cash sits in the wrong inventory</div>
+          <div class="card-body">Inventory is high overall, yet the right parts are still short. Static buffers hold excess on some SKUs and too little on others. The pitch: rightsize inventory and show the dollar impact every cycle.</div>
+          <div class="sub-label">Champions · start here</div>
+          <div class="tag-group">
+            <span class="tag tier1">S&amp;OP Manager</span>
+            <span class="tag tier1">Inventory Manager</span>
+            <span class="tag tier1">Lean / Continuous Improvement Leader</span>
+            <span class="tag tier1">Operational Excellence Leader</span>
+          </div>
+          <div class="sub-label">Sponsors · not the first call</div>
+          <div class="tag-group">
+            <span class="tag tier2">CFO</span>
+            <span class="tag tier2">Chief Procurement Officer</span>
+            <span class="tag tier2">President / General Manager</span>
+            <span class="tag tier2">CEO (smaller accounts)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:6px;">
+        <div>
+          <div class="sub-label">Day-to-day users · validate the value</div>
+          <div class="tag-group">
+            <span class="tag">Supply Chain Planner</span>
+            <span class="tag">Demand Planner</span>
+            <span class="tag">Master Scheduler</span>
+            <span class="tag">Purchasing Manager</span>
+            <span class="tag">Production Manager</span>
+            <span class="tag">Industrial Engineering Leader</span>
+          </div>
+        </div>
+        <div>
+          <div class="sub-label">Technical gate · involve early</div>
+          <div class="tag-group">
+            <span class="tag">CIO</span>
+            <span class="tag">CTO</span>
+            <span class="tag">ERP / enterprise apps owner</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-label">Target industries</div>
+      <div class="tag-group">
+        <span class="tag">Automotive OEMs &amp; suppliers</span>
+        <span class="tag">Discrete &amp; industrial manufacturing</span>
+        <span class="tag">Industrial equipment</span>
+        <span class="tag">Electronics manufacturing</span>
+        <span class="tag ask">Retail &amp; CPG · scope to confirm</span>
+      </div>
+
+      <div class="sub-label">Fit signals</div>
+      <div class="tag-group">
+        <span class="tag tier2">ERP: SAP, Oracle, QAD, Epicor, Infor, NetSuite</span>
+        <span class="tag tier2">500–2,000+ purchased SKUs</span>
+        <span class="tag tier2">Multi-plant footprint</span>
+        <span class="tag tier2">Lean / Kanban / pull replenishment in place</span>
+        <span class="tag tier2">Recent stockouts or line stoppages</span>
+        <span class="tag tier2">Supplier or tariff exposure</span>
+        <span class="tag tier2">Working-capital pressure</span>
+        <span class="tag tier2">Hiring supply-chain planners</span>
+        <span class="tag tier2">Existing OutSystems customer</span>
+      </div>
+
+      <div class="sub-label" style="color:var(--red);">Anti-signals · our hypotheses, to test</div>
+      <div class="tag-group">
+        <span class="tag anti">ERP replacement mid-flight</span>
+        <span class="tag anti">Under ~500 purchased SKUs</span>
+        <span class="tag anti">Looking to replace a full planning suite</span>
+        <span class="tag anti">Retail with no manufacturing operations</span>
+      </div>
+
+      <div class="sub-label">Competitive landscape · from your onboarding workbook</div>
+      <div class="tag-group">
+        <span class="tag">Aera Technology</span><span class="tag">Blue Yonder</span><span class="tag">C3 AI</span><span class="tag">Kinaxis</span><span class="tag">LeanDNA</span><span class="tag">Lyric</span><span class="tag">o9 Solutions</span><span class="tag">Palantir</span><span class="tag">RELEX Solutions</span><span class="tag">ToolsGroup</span><span class="tag">Tractian</span>
+      </div>
+      <p class="note">Stockly sits on top of the ERP rather than replacing a planning suite. In some accounts these vendors are competitors, and in others they are adjacent tools. Vieu technographics can show who runs what, and you decide whether those accounts are a target, a complement play or a skip.</p>
+    </div>
+
+    <div style="background: var(--white); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 22px 24px;">
+      <div class="offer-label">Account scope · What is in and out</div>
+      <div class="two-col">
+        <div>
+          <div class="sub-label" style="margin-top:0;">Starting universe · in your workbook</div>
+          <p style="font-size:13px; color:var(--ink-mid); line-height:1.7;">About 1,300 North American accounts that meet the BOX criteria, spanning automotive OEMs and suppliers, industrial and electronics manufacturers, equipment dealers, and some retail and consumer names. Vieu ranks it by Stockly fit and warm-path strength and proposes a first cohort.</p>
+        </div>
+        <div>
+          <div class="sub-label" style="margin-top:0;">Pending · from you</div>
+          <p style="font-size:13px; color:var(--ink-mid); line-height:1.7;">Your <strong>priority accounts</strong> with the owning seller, and your <strong>suppression list</strong>: existing Stockly or Analytos customers, open opportunities, and accounts owned by other OutSystems partners.</p>
+          <p style="font-size:12px; color:var(--ink-soft); line-height:1.6; margin-top:12px;">Everything Vieu proposes is checked against your exclusions before it reaches you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 GOVERNANCE -->
+  <div class="section" id="s06">
+    <div class="section-kicker">Program Governance</div>
+    <h2 class="section-title">Who Owns <em>What</em></h2>
+    <p class="section-intro">Warm paths and verified leads only turn into meetings when a named person acts on them. This section names the owners on each side and how a lead moves from Vieu to a booked meeting. <strong>We will fill it in together on the kickoff call</strong> and re-issue this brief with the agreed names.</p>
+
+    <div class="gov-callout">
+      <span class="pill live">To confirm live</span> marks a field we will complete together on the call. <span class="pill proposed">Proposed</span> marks Vieu's suggestion, which you can accept or change. <span class="pill known">Standard</span> marks something that is part of every AWS BOX engagement.
+    </div>
+
+    <p class="sub-label" style="margin-bottom:12px;">01 · Program roles</p>
+    <div class="table-wrap" style="margin-bottom:36px;">
+      <table class="data-table gov-table">
+        <thead><tr><th>Role</th><th>OutSystems</th><th>Analytos</th><th>Vieu</th><th>AWS BOX</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="role-name">Program POC</span><span class="role-desc">Single point of contact. Owns the plan, signs off on account cohorts, runs the weekly sync.</span></td>
+            <td><span class="fill pending" data-key="poc-os">Mike Gibbons (proposed)</span></td>
+            <td><span class="fill pending" data-key="poc-an">To confirm live</span></td>
+            <td><span class="person">Ashish Verma<small>Customer Success · engagement lead</small></span></td>
+            <td><span class="person">Katelyn Herrygers<small>AWS BOX · Strategic vPMM</small></span></td>
+          </tr>
+          <tr>
+            <td><span class="role-name">Executive sponsor</span><span class="role-desc">Unblocks decisions and attends the monthly review.</span></td>
+            <td><span class="fill pending" data-key="exec-os">To confirm live</span></td>
+            <td><span class="fill pending" data-key="exec-an">To confirm live</span></td>
+            <td><span class="person">Serrah Linares<small>Chief Outcomes Officer</small></span></td>
+            <td><span class="fill pending" data-key="exec-aws">To confirm live</span></td>
+          </tr>
+          <tr>
+            <td><span class="role-name">Account list approver</span><span class="role-desc">Approves target cohorts, priority accounts and exclusions.</span></td>
+            <td><span class="fill pending" data-key="appr-os">To confirm live</span></td>
+            <td><span class="fill pending" data-key="appr-an">To confirm live</span></td>
+            <td><span class="person">Ashish Verma<small>Proposes cohorts</small></span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span class="role-name">Outreach owners</span><span class="role-desc">Act on warm paths and verified leads within the agreed time. Named individually below.</span></td>
+            <td><span class="fill pending" data-key="out-os">To confirm live</span></td>
+            <td><span class="fill pending" data-key="out-an">To confirm live</span></td>
+            <td><span class="person">Vieu CS team<small>Drafts intro asks and messaging</small></span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span class="role-name">Introducers</span><span class="role-desc">Leaders whose networks carry the warm intros. They upload LinkedIn connections and send the intro when asked.</span></td>
+            <td><span class="fill pending" data-key="intro-os">To confirm live</span></td>
+            <td><span class="fill pending" data-key="intro-an">To confirm live</span></td>
+            <td>—</td>
+            <td><span class="fill pending" data-key="intro-aws">AWS contacts, if nominated</span></td>
+          </tr>
+          <tr>
+            <td><span class="role-name">Messaging &amp; assets owner</span><span class="role-desc">Approves outreach copy, claims and the proof-of-value offer wording.</span></td>
+            <td><span class="fill pending" data-key="msg-os">To confirm live</span></td>
+            <td><span class="fill pending" data-key="msg-an">To confirm live</span></td>
+            <td><span class="person">Vieu CS team<small>Drafts for approval</small></span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span class="role-name">Proof-of-value lead</span><span class="role-desc">Takes a booked meeting through the 14-day POV.</span></td>
+            <td><span class="fill pending" data-key="pov-os">To confirm live</span></td>
+            <td><span class="fill pending" data-key="pov-an">To confirm live</span></td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="sub-label" style="margin-bottom:12px;">02 · Outreach owners · who acts on the leads</p>
+    <div class="table-wrap" style="margin-bottom:12px;">
+      <table class="data-table gov-table">
+        <thead><tr><th>Name</th><th>Company</th><th>Role / title</th><th>Accounts or territory</th><th>Vieu login</th></tr></thead>
+        <tbody>
+          <tr><td><span class="fill pending" data-key="o1-name">Name</span></td><td><span class="fill pending" data-key="o1-co">OutSystems / Analytos</span></td><td><span class="fill pending" data-key="o1-role">Title</span></td><td><span class="fill pending" data-key="o1-acc">e.g. Automotive, Midwest</span></td><td><span class="fill pending" data-key="o1-login">Yes / No</span></td></tr>
+          <tr><td><span class="fill pending" data-key="o2-name">Name</span></td><td><span class="fill pending" data-key="o2-co">OutSystems / Analytos</span></td><td><span class="fill pending" data-key="o2-role">Title</span></td><td><span class="fill pending" data-key="o2-acc">Accounts or territory</span></td><td><span class="fill pending" data-key="o2-login">Yes / No</span></td></tr>
+          <tr><td><span class="fill pending" data-key="o3-name">Name</span></td><td><span class="fill pending" data-key="o3-co">OutSystems / Analytos</span></td><td><span class="fill pending" data-key="o3-role">Title</span></td><td><span class="fill pending" data-key="o3-acc">Accounts or territory</span></td><td><span class="fill pending" data-key="o3-login">Yes / No</span></td></tr>
+          <tr><td><span class="fill pending" data-key="o4-name">Name</span></td><td><span class="fill pending" data-key="o4-co">OutSystems / Analytos</span></td><td><span class="fill pending" data-key="o4-role">Title</span></td><td><span class="fill pending" data-key="o4-acc">Accounts or territory</span></td><td><span class="fill pending" data-key="o4-login">Yes / No</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-bottom:36px;">The same names go into the <em>List of AE</em> tab of your onboarding workbook. Vieu then builds a cohort in the platform for each owner, so everyone sees only their own accounts.</p>
+
+    <p class="sub-label" style="margin-bottom:12px;">03 · How a warm path becomes a meeting <span class="pill proposed" style="margin-left:6px;">Proposed</span></p>
+    <ol class="flow" style="margin-bottom:12px;">
+      <li><div><div class="ft">Vieu releases a cohort</div><div class="fd">Account plan, named buyer, verified contact and the warmest path in, delivered in your chosen format.</div></div><div class="fo"><b>Owner</b>Vieu · <span class="fill pending" data-key="sla1">weekly</span></div></li>
+      <li><div><div class="ft">Outreach owner reviews</div><div class="fd">Accept, reject or reassign each lead, with a one-line reason for rejects so the next cohort gets sharper.</div></div><div class="fo"><b>Owner</b>Outreach owner · <span class="fill pending" data-key="sla2">within 2 business days</span></div></li>
+      <li><div><div class="ft">Intro is requested</div><div class="fd">Vieu drafts the ask. The outreach owner sends it to the introducer named on the path.</div></div><div class="fo"><b>Owner</b>Outreach owner · <span class="fill pending" data-key="sla3">within 2 business days</span></div></li>
+      <li><div><div class="ft">Introducer makes the intro</div><div class="fd">A short, personal note from someone the buyer already knows. Leads without a warm path go to verified outbound instead.</div></div><div class="fo"><b>Owner</b>Introducer · <span class="fill pending" data-key="sla4">within 5 business days</span></div></li>
+      <li><div><div class="ft">Meeting booked, proof of value offered</div><div class="fd">First conversation leads to the 14-day POV on the buyer's first plant.</div></div><div class="fo"><b>Owner</b>Outreach owner + POV lead</div></li>
+      <li><div><div class="ft">Outcome logged back to Vieu</div><div class="fd">Meeting held, no response, or not a fit. This feedback tunes the next cohort and goes into the weekly update to AWS BOX.</div></div><div class="fo"><b>Owner</b>Outreach owner · <span class="fill pending" data-key="sla6">weekly</span></div></li>
+    </ol>
+    <p class="note" style="margin-bottom:36px;">Response times are Vieu's suggested starting point. We will agree the real ones on the call.</p>
+
+    <p class="sub-label" style="margin-bottom:12px;">04 · Cadence</p>
+    <div class="table-wrap" style="margin-bottom:36px;">
+      <table class="data-table">
+        <thead><tr><th>Touchpoint</th><th>Who</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Weekly update email</strong>: what was delivered, what moved, the plan for next week</td><td>Vieu → OutSystems, Analytos, AWS BOX</td><td>Weekly <span class="pill known">Standard</span></td></tr>
+          <tr><td><strong>Working session</strong>: review the cohort and outcomes, unblock intros</td><td>Program POCs + outreach owners + Vieu</td><td><span class="fill pending" data-key="cad-work">Weekly or bi-weekly, 30 min</span> <span class="pill proposed">Proposed</span></td></tr>
+          <tr><td><strong>Program review</strong>: results against goal, scope changes</td><td>Executive sponsors + program POCs + AWS BOX</td><td><span class="fill pending" data-key="cad-review">Monthly, 30 min</span> <span class="pill proposed">Proposed</span></td></tr>
+          <tr><td><strong>Day-to-day channel</strong></td><td>Everyone named above</td><td><span class="fill pending" data-key="cad-channel">Email / Slack / Teams</span> <span class="pill live">To confirm live</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="sub-label" style="margin-bottom:12px;">05 · Decisions for the kickoff call</p>
+    <ul class="decision-list">
+      <li><div class="dq">Who is the single program POC?<span>One person across OutSystems and Analytos, or one each?</span></div><div class="da"><b>Agreed</b><span class="fill pending" data-key="d1">To confirm live</span></div></li>
+      <li><div class="dq">Who works the leads?<span>OutSystems sellers, the Analytos team, or both, and how are accounts split?</span></div><div class="da"><b>Agreed</b><span class="fill pending" data-key="d2">To confirm live</span></div></li>
+      <li><div class="dq">Whose networks do we map first?<span>Leadership, board, investors, champions, Analytos founders</span></div><div class="da"><b>Agreed</b><span class="fill pending" data-key="d3">To confirm live</span></div></li>
+      <li><div class="dq">Is Retail &amp; CPG in scope?<span>Or do we lead with automotive and manufacturing?</span></div><div class="da"><b>Agreed</b><span class="fill pending" data-key="d4">To confirm live</span></div></li>
+      <li><div class="dq">Do we start with OutSystems' installed base in manufacturing?<span>Requires OutSystems to share or approve that cohort</span></div><div class="da"><b>Agreed</b><span class="fill pending" data-key="d5">To confirm live</span></div></li>
+      <li><div class="dq">What does success look like by the end of the program?<span>Qualified meetings, POVs started, pipeline value</span></div><div class="da"><b>Agreed</b><span class="fill pending" data-key="d6">To confirm live</span></div></li>
+    </ul>
+  </div>
+
+  <!-- 07 WHAT WE NEED -->
+  <div class="section" id="s07">
+    <div class="section-kicker">Getting Started</div>
+    <h2 class="section-title">What We Need From You</h2>
+    <p class="section-intro">Everything below maps to a tab in your onboarding workbook. The first two items unblock everything else.</p>
+
+    <div class="table-wrap" style="margin-bottom:36px;">
+      <table class="data-table">
+        <thead><tr><th>What we need</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Program POC and outreach owners</strong>, as named in Section 06</td><td>A warm path with no owner does not convert. This is the first thing we settle</td></tr>
+          <tr><td><strong>Priority account list</strong> with the owning seller · <em>Target Accounts</em> and <em>List of AE</em> tabs</td><td>Merged with Vieu's proposed candidates. Each owner gets their own cohort in the platform</td></tr>
+          <tr><td><strong>Suppression list</strong>: current customers, open opportunities, partner-owned accounts</td><td>Applied before anything is proposed, so nothing comes back to you that shouldn't</td></tr>
+          <tr><td><strong>Corporate network review</strong> · <em>Corporate Network</em> tab</td><td>About 600 people are already mapped across the OutSystems board, leadership, investors and champions, plus the Analytos team. Mark keep, remove or add</td></tr>
+          <tr><td><strong>LinkedIn CSV</strong> from each introducer</td><td>Mapping each introducer's full connection graph surfaces far more warm paths, and far more accurate ones</td></tr>
+          <tr><td><strong>ICP and persona sign-off</strong> · <em>ICP Details</em> tab</td><td>Confirms the Retail &amp; CPG question and the champion and sponsor split in Section 05</td></tr>
+          <tr><td><strong>Approved messaging</strong>: Stockly solution brief and the proof-of-value offer wording</td><td>Lets Vieu draft intro asks and outreach that use only claims you've approved</td></tr>
+          <tr><td><strong>Preferred delivery format</strong>: Vieu login, Slack or Teams channel, or Google Sheets / Excel</td><td>We deliver wherever creates the least friction for the people working the leads</td></tr>
+          <tr><td><strong>CRM integration</strong> (optional): Salesforce or HubSpot</td><td>Shows connections natively on your accounts and contacts</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mini-head" style="margin-top:36px; margin-bottom:16px;">Important Links</div>
+    <div class="links-box">
+      <div class="link-row">
+        <div class="link-name">Vieu Platform Login</div>
+        <div class="link-desc">Access your account, run searches, and activate warm paths</div>
+        <a class="btn-outline" href="https://www.vieu.com/login" target="_blank" rel="noopener">Log In &rarr;</a>
+      </div>
+      <div class="link-row tall">
+        <div class="link-name" style="padding-top:2px;">Upload LinkedIn CSV</div>
+        <div>
+          <div class="link-desc" style="margin-bottom:14px;">Adding LinkedIn connections expands the warm paths Vieu can surface. Each introducer and outreach owner at OutSystems and Analytos should complete these steps.</div>
+          <div class="steps">
+            <div class="step"><span class="step-n">1</span><span class="step-t">Go to <strong>linkedin.com/mypreferences/d/download-my-data</strong></span></div>
+            <div class="step"><span class="step-n">2</span><span class="step-t">Select <strong>"Download larger data archive"</strong>, then click <strong>Request archive</strong></span></div>
+            <div class="step"><span class="step-n">3</span><span class="step-t">LinkedIn emails a download link within a few hours (occasionally up to 12), sometimes as one or two downloads</span></div>
+            <div class="step"><span class="step-n">4</span><span class="step-t">Download the <strong>.zip</strong> file(s). The links expire after <strong>3 days</strong></span></div>
+            <div class="step"><span class="step-n">5</span><span class="step-t">Open the archive and take only <strong>Connections.csv</strong>. Do not share the full .zip, because it contains personal information</span></div>
+            <div class="step"><span class="step-n">6</span><span class="step-t">Upload <strong>Connections.csv</strong> using your Vieu link below</span></div>
+          </div>
+          <a class="btn-solid" href="https://www.vieu.com/boost-network?t=outsystems-btyzUxewWqQU2GJz445im" target="_blank" rel="noopener">Upload Connections.csv &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="footer-left">
+      <strong>OutSystems + Analytos GTM Strategy Brief</strong><br>
+      Prepared by Vieu · November 2026 · Confidential<br>
+      Contact: vermaa@vieu.com · Built on 9B Executive Relationships
+    </div>
+    <div class="footer-vieu">vieu</div>
+  </div>
+
+</div>
+
+<script>
+/* Live-edit mode for the kickoff call.
+   Open this file with #edit at the end of the URL to type names into the
+   dashed fields, then use "Save updated HTML" to download the filled-in copy. */
+(function () {
+  var STORE = 'vieu-osan-brief-v1';
+  var fills = Array.prototype.slice.call(document.querySelectorAll('.fill[data-key]'));
+
+  function readStore() { try { return JSON.parse(localStorage.getItem(STORE) || '{}'); } catch (e) { return {}; } }
+  function writeStore(obj) { try { localStorage.setItem(STORE, JSON.stringify(obj)); } catch (e) {} }
+
+  if (location.hash !== '#edit') return;
+
+  document.body.classList.add('editing');
+  var saved = readStore();
+  fills.forEach(function (el) {
+    var k = el.getAttribute('data-key');
+    if (saved[k] !== undefined) { el.textContent = saved[k]; el.classList.remove('pending'); }
+    el.setAttribute('contenteditable', 'true');
+    el.setAttribute('spellcheck', 'false');
+    el.addEventListener('focus', function () {
+      if (el.classList.contains('pending')) {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      }
+    });
+    el.addEventListener('input', function () {
+      el.classList.remove('pending');
+      var all = readStore(); all[k] = el.textContent.trim(); writeStore(all);
+    });
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+  });
+
+  var bar = document.createElement('div');
+  bar.id = 'edit-bar';
+  bar.innerHTML = '<span>Edit mode · click a dashed field to type</span>' +
+    '<button type="button" id="eb-save">Save updated HTML</button>' +
+    '<button type="button" class="ghost" id="eb-reset">Reset fields</button>';
+  document.body.appendChild(bar);
+
+  document.getElementById('eb-save').addEventListener('click', function () {
+    var clone = document.documentElement.cloneNode(true);
+    var b = clone.querySelector('#edit-bar'); if (b) b.parentNode.removeChild(b);
+    clone.querySelector('body').classList.remove('editing');
+    Array.prototype.forEach.call(clone.querySelectorAll('[contenteditable]'), function (n) {
+      n.removeAttribute('contenteditable'); n.removeAttribute('spellcheck');
+    });
+    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    var blob = new Blob([html], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'OutSystems_Analytos_GTM_Brief_updated.html';
+    document.body.appendChild(a); a.click(); a.parentNode.removeChild(a);
+  });
+
+  document.getElementById('eb-reset').addEventListener('click', function () {
+    try { localStorage.removeItem(STORE); } catch (e) {}
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>
